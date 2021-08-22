@@ -61,7 +61,7 @@
 							"    });\r",
 							"\r",
 							"pm.test(\">>> Response must have properties\", () => {\r",
-							"  //pm.expect(jsonData.customer).to.have.property('id');\r",
+							"  pm.expect(jsonData.customer).to.have.property('id');\r",
 							"  pm.expect(jsonData.customer).to.have.property('lastname');\r",
 							"  pm.expect(jsonData.customer).to.have.property('firstname');\r",
 							"  pm.expect(jsonData.customer).to.have.property('email');\r",
