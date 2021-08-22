@@ -1,0 +1,384 @@
+{
+	"info": {
+		"_postman_id": "8b5acd0c-0131-49e2-a012-fe9bfbd35d12",
+		"name": "PrestaShop_collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create a new user",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\">>>>> Crete a new user\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"//************************************************* \r",
+							"//response status testing \r",
+							"//************************************************* \r",
+							"\r",
+							"pm.test (\">>> Status code is 200\", function()\r",
+							"    {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Status code name has string 'OK'\", function()\r",
+							"    {\r",
+							"    pm.response.to.have.status(\"Created\");\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Response is in json format\", function()\r",
+							"    {\r",
+							"    pm.response.to.be.json;\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Response time is less than 500\", function()\r",
+							"    {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"    });\r",
+							"\r",
+							"//************************************************* \r",
+							"//response body testing\r",
+							"//************************************************* \r",
+							"pm.test (\">>> Response is not empty\", function()\r",
+							"    {\r",
+							"    pm.expect(jsonData).to.be.not.empty;\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Response has type object\", function()\r",
+							"    {\r",
+							"        pm.expect(jsonData).to.be.a(\"object\")\r",
+							"    });\r",
+							"\r",
+							"pm.test(\">>> Response must have properties\", () => {\r",
+							"  pm.expect(jsonData.customer).to.have.property('id');\r",
+							"  pm.expect(jsonData.customer).to.have.property('lastname');\r",
+							"  pm.expect(jsonData.customer).to.have.property('firstname');\r",
+							"  pm.expect(jsonData.customer).to.have.property('email');\r",
+							"});\r",
+							"\r",
+							"pm.test (\">>> User verification\", function()\r",
+							"    {\r",
+							"        pm.expect(jsonData.customer.firstname).to.eql(\"TestUserFirstName\"),\r",
+							"        pm.expect(jsonData.customer.lastname).to.eql(\"TestUserLastName\"),\r",
+							"        pm.expect(jsonData.customer.email).to.eql(\"testuser@mail\")\r",
+							"    }); \r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">\r\n  <customer>\r\n    <passwd><![CDATA[TestUserPassword]]></passwd>\r\n    <lastname><![CDATA[TestUserLastName]]></lastname>\r\n    <firstname><![CDATA[TestUserFirstName]]></firstname>\r\n    <email><![CDATA[testuser@mail]]></email>\r\n  </customer>\r\n</prestashop>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://104.209.254.152/api/customers/?ws_key=EMLX2FKDSD1C7V6UDXVBMEWBCAK7U6WK&output_format=JSON",
+					"protocol": "http",
+					"host": [
+						"104",
+						"209",
+						"254",
+						"152"
+					],
+					"path": [
+						"api",
+						"customers",
+						""
+					],
+					"query": [
+						{
+							"key": "ws_key",
+							"value": "EMLX2FKDSD1C7V6UDXVBMEWBCAK7U6WK"
+						},
+						{
+							"key": "output_format",
+							"value": "JSON"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a new cart",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\">>>>> Create a new user\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"//************************************************* \r",
+							"//response status testing \r",
+							"//************************************************* \r",
+							"\r",
+							"pm.test (\">>> Status code is 200\", function()\r",
+							"    {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Status code name has string 'OK'\", function()\r",
+							"    {\r",
+							"    pm.response.to.have.status(\"Created\");\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Response is in json format\", function()\r",
+							"    {\r",
+							"    pm.response.to.be.json;\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Response time is less than 500\", function()\r",
+							"    {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"    });\r",
+							"\r",
+							"//************************************************* \r",
+							"//response body testing\r",
+							"//************************************************* \r",
+							"pm.test (\">>> Response is not empty\", function()\r",
+							"    {\r",
+							"    pm.expect(jsonData).to.be.not.empty;\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Response has type object\", function()\r",
+							"    {\r",
+							"        pm.expect(jsonData).to.be.a(\"object\")\r",
+							"    });\r",
+							"\r",
+							"pm.test(\">>> Response must have properties\", () => {\r",
+							"  pm.expect(jsonData.cart).to.have.property('id'),\r",
+							"  pm.expect(jsonData.cart).to.have.property('id_customer'),\r",
+							"  pm.expect(jsonData.cart.associations.cart_rows[0]).to.have.property('id_product'),\r",
+							"  pm.expect(jsonData.cart.associations.cart_rows[0]).to.have.property('id_product_attribute'),\r",
+							"  pm.expect(jsonData.cart.associations.cart_rows[0]).to.have.property('id_address_delivery'),\r",
+							"  pm.expect(jsonData.cart.associations.cart_rows[0]).to.have.property('id_customization'),\r",
+							"  pm.expect(jsonData.cart.associations.cart_rows[0]).to.have.property('quantity') \r",
+							"});\r",
+							"\r",
+							"pm.test (\">>> Cart verification\", function()\r",
+							"    {\r",
+							"        pm.expect(jsonData.cart.associations.cart_rows[0].id_product).to.eql(\"1\")\r",
+							"        pm.expect(jsonData.cart.associations.cart_rows[0].id_product_attribute).to.eql(\"1\"),\r",
+							"        pm.expect(jsonData.cart.associations.cart_rows[0].id_address_delivery).to.eql(\"3\"),\r",
+							"        pm.expect(jsonData.cart.associations.cart_rows[0].id_customization).to.eql(\"0\"),\r",
+							"        pm.expect(jsonData.cart.associations.cart_rows[0].quantity).to.eql(\"3\")\r",
+							"    }); \r",
+							"   \r",
+							"//*************************************************\r",
+							"var cart_id= jsonData.cart.id;\r",
+							"pm.collectionVariables.set(\"id\", cart_id);\r",
+							"console.log(\">>>>>Cart id: \" + cart_id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">\r\n  <cart>\r\n    <id_currency><![CDATA[1]]></id_currency>\r\n    <id_customer><![CDATA[67]]></id_customer>\r\n    <id_lang><![CDATA[1]]></id_lang>\r\n    <associations>\r\n      <cart_rows>\r\n        <cart_row>\r\n          <id_product><![CDATA[1]]></id_product>\r\n          <id_product_attribute><![CDATA[1]]></id_product_attribute>\r\n          <id_address_delivery><![CDATA[3]]></id_address_delivery>\r\n          <id_customization><![CDATA[0]]></id_customization>\r\n          <quantity><![CDATA[3]]></quantity>\r\n        </cart_row>\r\n      </cart_rows>\r\n    </associations>\r\n  </cart>\r\n</prestashop>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://104.209.254.152/api/carts/?ws_key=N3GURVIGKHCY725K9YFEMESRXERVAJY6&output_format=JSON&sort=id_ASC",
+					"protocol": "http",
+					"host": [
+						"104",
+						"209",
+						"254",
+						"152"
+					],
+					"path": [
+						"api",
+						"carts",
+						""
+					],
+					"query": [
+						{
+							"key": "ws_key",
+							"value": "N3GURVIGKHCY725K9YFEMESRXERVAJY6"
+						},
+						{
+							"key": "output_format",
+							"value": "JSON"
+						},
+						{
+							"key": "sort",
+							"value": "id_ASC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filter By brand",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://104.209.254.152/api/products/?ws_key=319B4R11VVY17EDZL6YFDZ2XFQLEGE8D&output_format=JSON&filter[id_manufacturer]=1&sort=id_ASC",
+					"protocol": "http",
+					"host": [
+						"104",
+						"209",
+						"254",
+						"152"
+					],
+					"path": [
+						"api",
+						"products",
+						""
+					],
+					"query": [
+						{
+							"key": "ws_key",
+							"value": "319B4R11VVY17EDZL6YFDZ2XFQLEGE8D"
+						},
+						{
+							"key": "output_format",
+							"value": "JSON"
+						},
+						{
+							"key": "filter[id_manufacturer]",
+							"value": "1"
+						},
+						{
+							"key": "sort",
+							"value": "id_ASC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filter by price",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://104.209.254.152/api/products/?ws_key=319B4R11VVY17EDZL6YFDZ2XFQLEGE8D&output_format=JSON&filter[price]=23.900000&sort=id_ASC&=",
+					"protocol": "http",
+					"host": [
+						"104",
+						"209",
+						"254",
+						"152"
+					],
+					"path": [
+						"api",
+						"products",
+						""
+					],
+					"query": [
+						{
+							"key": "ws_key",
+							"value": "319B4R11VVY17EDZL6YFDZ2XFQLEGE8D"
+						},
+						{
+							"key": "output_format",
+							"value": "JSON"
+						},
+						{
+							"key": "filter[price]",
+							"value": "23.900000"
+						},
+						{
+							"key": "sort",
+							"value": "id_ASC"
+						},
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search by product name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://104.209.254.152/api/products/?ws_key=319B4R11VVY17EDZL6YFDZ2XFQLEGE8D&output_format=JSON&filter[name]=Jacket&sort=id_ASC",
+					"protocol": "http",
+					"host": [
+						"104",
+						"209",
+						"254",
+						"152"
+					],
+					"path": [
+						"api",
+						"products",
+						""
+					],
+					"query": [
+						{
+							"key": "ws_key",
+							"value": "319B4R11VVY17EDZL6YFDZ2XFQLEGE8D"
+						},
+						{
+							"key": "output_format",
+							"value": "JSON"
+						},
+						{
+							"key": "filter[name]",
+							"value": "Jacket"
+						},
+						{
+							"key": "sort",
+							"value": "id_ASC"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": ""
+		}
+	]
+}
