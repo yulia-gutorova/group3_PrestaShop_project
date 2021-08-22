@@ -15,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1    
     
-      - name: Run API Tests
+      - name: Run Postman API Tests
         id: run-newman
         uses: anthonyvscode/newman-action@v1
         with:
