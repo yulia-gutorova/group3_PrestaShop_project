@@ -9,9 +9,8 @@ on:
       - master
 
 jobs:
-  autotests:
+  tests:
     runs-on: ubuntu-latest
-    continue-on-error: true
 
     steps:
       - name: Checkout
@@ -24,7 +23,7 @@ jobs:
           collection: PrestaShop_collection.postman_collection.json
           reporters: cli
 
-      - name: Output summary to console
+      - name: Output Postman-Newman summary to console
         run: echo ${{ steps.run-newman.outputs.summary }}
 
       - name: Run JMeter Tests
