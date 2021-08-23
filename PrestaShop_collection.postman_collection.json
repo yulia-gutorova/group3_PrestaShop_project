@@ -12,7 +12,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"console.log(\">>>>> Crete a new user\");"
+							"console.log(\">>>>> Create a new user\");"
 						],
 						"type": "text/javascript"
 					}
@@ -73,7 +73,13 @@
 							"        pm.expect(jsonData.customer.lastname).to.eql(\"TestUserLastName\"),\r",
 							"        pm.expect(jsonData.customer.email).to.eql(\"testuser@mail\")\r",
 							"    }); \r",
-							"\r",
+							"     \r",
+							"//************************************************* \r",
+							"//set collection variables\r",
+							"//*************************************************\r",
+							"var customer_id= jsonData.customer.id;\r",
+							"pm.collectionVariables.set(\"cust_id\", customer_id);\r",
+							"console.log(\">>>>>Customer id: \" + customer_id);\r",
 							""
 						],
 						"type": "text/javascript"
@@ -121,13 +127,203 @@
 			"response": []
 		},
 		{
+			"name": "Update an existing user",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\">>>>> Update a user\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"//************************************************* \r",
+							"//response status testing \r",
+							"//************************************************* \r",
+							"\r",
+							"pm.test (\">>> Status code is 200\", function()\r",
+							"    {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Status code name has string 'OK'\", function()\r",
+							"    {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Response is in json format\", function()\r",
+							"    {\r",
+							"    pm.response.to.be.json;\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Response time is less than 500\", function()\r",
+							"    {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"    });\r",
+							"\r",
+							"//************************************************* \r",
+							"//response body testing\r",
+							"//************************************************* \r",
+							"pm.test (\">>> Response is not empty\", function()\r",
+							"    {\r",
+							"    pm.expect(jsonData).to.be.not.empty;\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Response has type object\", function()\r",
+							"    {\r",
+							"        pm.expect(jsonData).to.be.a(\"object\")\r",
+							"    });\r",
+							"\r",
+							" pm.test (\">>> Updating user verification\", function()\r",
+							"    {\r",
+							"        pm.expect(jsonData.customer.id).to.eql(pm.collectionVariables.get(\"cust_id\")),\r",
+							"        pm.expect(jsonData.customer.lastname).to.eql(\"Potter\"),\r",
+							"        pm.expect(jsonData.customer.firstname).to.eql(\"Harry\"),\r",
+							"        pm.expect(jsonData.customer.email).to.eql(\"harry@potter\")\r",
+							"    }); "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">\r\n  <customer>\r\n    <id><![CDATA[{{cust_id}}]]></id>\r\n    <passwd><![CDATA[Harry]]></passwd>\r\n    <lastname><![CDATA[Potter]]></lastname>\r\n    <firstname><![CDATA[Harry]]></firstname>\r\n    <email><![CDATA[harry@potter]]></email>\r\n  </customer>\r\n</prestashop>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://104.209.254.152/api/customers/?ws_key=EMLX2FKDSD1C7V6UDXVBMEWBCAK7U6WK&output_format=JSON&cust_id={{cust_id}}",
+					"protocol": "http",
+					"host": [
+						"104",
+						"209",
+						"254",
+						"152"
+					],
+					"path": [
+						"api",
+						"customers",
+						""
+					],
+					"query": [
+						{
+							"key": "ws_key",
+							"value": "EMLX2FKDSD1C7V6UDXVBMEWBCAK7U6WK"
+						},
+						{
+							"key": "output_format",
+							"value": "JSON"
+						},
+						{
+							"key": "cust_id",
+							"value": "{{cust_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user with particular ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"//************************************************* \r",
+							"//response status testing \r",
+							"//************************************************* \r",
+							"\r",
+							"pm.test (\">>> Status code is 200\", function()\r",
+							"    {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Status code name has string 'OK'\", function()\r",
+							"    {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"    });\r",
+							"\r",
+							"\r",
+							"pm.test (\">>> Response time is less than 500\", function()\r",
+							"    {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"    });\r",
+							"\r",
+							"\r",
+							"pm.test (\">>> Response headers contain 'Content-Length' header\", function()\r",
+							"    {\r",
+							"    pm.expect(pm.response).to.have.header(\"Content-Length\");\r",
+							"    });\r",
+							"\r",
+							"pm.test(\">>> Content-type header contains 'application/json'\", function() \r",
+							"    {\r",
+							"  pm.expect(pm.response.headers.get('Content-Length')).to.contains('0');\r",
+							"    }); "
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\">>>>> Delete a user\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://104.209.254.152/api/customers/{{cust_id}}?ws_key=EMLX2FKDSD1C7V6UDXVBMEWBCAK7U6WK",
+					"protocol": "http",
+					"host": [
+						"104",
+						"209",
+						"254",
+						"152"
+					],
+					"path": [
+						"api",
+						"customers",
+						"{{cust_id}}"
+					],
+					"query": [
+						{
+							"key": "ws_key",
+							"value": "EMLX2FKDSD1C7V6UDXVBMEWBCAK7U6WK"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Create a new cart",
 			"event": [
 				{
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"console.log(\">>>>> Create a new user\");"
+							"console.log(\">>>>> Create a new cart\");"
 						],
 						"type": "text/javascript"
 					}
@@ -196,7 +392,7 @@
 							"   \r",
 							"//*************************************************\r",
 							"var cart_id= jsonData.cart.id;\r",
-							"pm.collectionVariables.set(\"id\", cart_id);\r",
+							"pm.collectionVariables.set(\"cart_id\", cart_id);\r",
 							"console.log(\">>>>>Cart id: \" + cart_id);"
 						],
 						"type": "text/javascript"
@@ -208,7 +404,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">\r\n  <cart>\r\n    <id_currency><![CDATA[1]]></id_currency>\r\n    <id_customer><![CDATA[67]]></id_customer>\r\n    <id_lang><![CDATA[1]]></id_lang>\r\n    <associations>\r\n      <cart_rows>\r\n        <cart_row>\r\n          <id_product><![CDATA[1]]></id_product>\r\n          <id_product_attribute><![CDATA[1]]></id_product_attribute>\r\n          <id_address_delivery><![CDATA[3]]></id_address_delivery>\r\n          <id_customization><![CDATA[0]]></id_customization>\r\n          <quantity><![CDATA[3]]></quantity>\r\n        </cart_row>\r\n      </cart_rows>\r\n    </associations>\r\n  </cart>\r\n</prestashop>",
+					"raw": " <prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">\r\n  <cart>\r\n    <id_currency><![CDATA[1]]></id_currency>\r\n    <id_customer><![CDATA[67]]></id_customer>\r\n    <id_lang><![CDATA[1]]></id_lang>\r\n    <associations>\r\n      <cart_rows>\r\n        <cart_row>\r\n          <id_product><![CDATA[1]]></id_product>\r\n          <id_product_attribute><![CDATA[1]]></id_product_attribute>\r\n          <id_address_delivery><![CDATA[3]]></id_address_delivery>\r\n          <id_customization><![CDATA[0]]></id_customization>\r\n          <quantity><![CDATA[3]]></quantity>\r\n        </cart_row>\r\n      </cart_rows>\r\n    </associations>\r\n  </cart>\r\n</prestashop>",
 					"options": {
 						"raw": {
 							"language": "xml"
@@ -248,7 +444,278 @@
 			"response": []
 		},
 		{
+			"name": "Update an existing cart",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\">>>>> Update a cart\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"//************************************************* \r",
+							"//response status testing \r",
+							"//************************************************* \r",
+							"\r",
+							"pm.test (\">>> Status code is 200\", function()\r",
+							"    {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Status code name has string 'OK'\", function()\r",
+							"    {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Response is in json format\", function()\r",
+							"    {\r",
+							"    pm.response.to.be.json;\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Response time is less than 500\", function()\r",
+							"    {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"    });\r",
+							"\r",
+							"//************************************************* \r",
+							"//response body testing\r",
+							"//************************************************* \r",
+							"pm.test (\">>> Response is not empty\", function()\r",
+							"    {\r",
+							"    pm.expect(jsonData).to.be.not.empty;\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Response has type object\", function()\r",
+							"    {\r",
+							"        pm.expect(jsonData).to.be.a(\"object\")\r",
+							"    });\r",
+							"\r",
+							" pm.test (\">>> Product cart verification\", function()\r",
+							"    {\r",
+							"        pm.expect(jsonData.cart.id).to.eql(pm.collectionVariables.get(\"cart_id\")),\r",
+							"        pm.expect(jsonData.cart.associations.cart_rows[0].quantity).to.eql(\"1000\")\r",
+							"    });    \r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">\r\n  <cart>\r\n    <id><![CDATA[{{cart_id}}]]></id>\r\n    <id_currency><![CDATA[1]]></id_currency>\r\n    <id_customer><![CDATA[67]]></id_customer>\r\n    <id_lang><![CDATA[1]]></id_lang>\r\n    <associations>\r\n      <cart_rows>\r\n        <cart_row>\r\n          <id_product><![CDATA[1]]></id_product>\r\n          <id_product_attribute><![CDATA[1]]></id_product_attribute>\r\n          <id_address_delivery><![CDATA[3]]></id_address_delivery>\r\n          <id_customization><![CDATA[0]]></id_customization>\r\n          <quantity><![CDATA[1000]]></quantity>\r\n        </cart_row>\r\n      </cart_rows>\r\n    </associations>\r\n  </cart>\r\n</prestashop>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://104.209.254.152/api/carts/?ws_key=N3GURVIGKHCY725K9YFEMESRXERVAJY6&output_format=JSON&sort=id_ASC&cart_id={{cart_id}}",
+					"protocol": "http",
+					"host": [
+						"104",
+						"209",
+						"254",
+						"152"
+					],
+					"path": [
+						"api",
+						"carts",
+						""
+					],
+					"query": [
+						{
+							"key": "ws_key",
+							"value": "N3GURVIGKHCY725K9YFEMESRXERVAJY6"
+						},
+						{
+							"key": "output_format",
+							"value": "JSON"
+						},
+						{
+							"key": "sort",
+							"value": "id_ASC"
+						},
+						{
+							"key": "cart_id",
+							"value": "{{cart_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete an existing cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"//************************************************* \r",
+							"//response status testing \r",
+							"//************************************************* \r",
+							"\r",
+							"pm.test (\">>> Status code is 200\", function()\r",
+							"    {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Status code name has string 'OK'\", function()\r",
+							"    {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"    });\r",
+							"\r",
+							"\r",
+							"pm.test (\">>> Response time is less than 500\", function()\r",
+							"    {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"    });\r",
+							"\r",
+							"\r",
+							"pm.test (\">>> Response headers contain 'Content-Length' header\", function()\r",
+							"    {\r",
+							"    pm.expect(pm.response).to.have.header(\"Content-Length\");\r",
+							"    });\r",
+							"\r",
+							"pm.test(\">>> Content-type header contains 'application/json'\", function() \r",
+							"    {\r",
+							"  pm.expect(pm.response.headers.get('Content-Length')).to.contains('0');\r",
+							"    }); "
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\">>>>> Delete a cart\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://104.209.254.152/api/carts/{{cart_id}}?ws_key=N3GURVIGKHCY725K9YFEMESRXERVAJY6&output_format=JSON&sort=id_ASC",
+					"protocol": "http",
+					"host": [
+						"104",
+						"209",
+						"254",
+						"152"
+					],
+					"path": [
+						"api",
+						"carts",
+						"{{cart_id}}"
+					],
+					"query": [
+						{
+							"key": "ws_key",
+							"value": "N3GURVIGKHCY725K9YFEMESRXERVAJY6"
+						},
+						{
+							"key": "output_format",
+							"value": "JSON"
+						},
+						{
+							"key": "sort",
+							"value": "id_ASC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Filter By brand",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"//************************************************* \r",
+							"//response status testing \r",
+							"//************************************************* \r",
+							"\r",
+							"pm.test(\">>> Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\">>> Status code name has string 'OK'\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\">>> Response is in json format\", function () {\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\">>> Response time is less than 500\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"\r",
+							"//************************************************* \r",
+							"//response body testing\r",
+							"//************************************************* \r",
+							"pm.test(\">>> Response is not empty\", function () {\r",
+							"    pm.expect(jsonData).to.be.not.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\">>> Response has type object\", function () {\r",
+							"    pm.expect(jsonData).to.be.a(\"object\")\r",
+							"});\r",
+							"\r",
+							"pm.test(\">>> Amout of products\", function () {\r",
+							"    pm.expect(jsonData.products.length).to.eql(9)\r",
+							"});\r",
+							"\r",
+							"pm.test('>>> Products verification', () => \r",
+							"    {\r",
+							"         _.each(jsonData.products, (item) => \r",
+							"         {\r",
+							"          pm.expect(item.id).to.be.a(\"number\")\r",
+							"         })\r",
+							"\r",
+							"        _.each(jsonData.products, (item) => \r",
+							"        {\r",
+							"        pm.expect(item.id).to.be.oneOf([1,2,6,7,8,9,10,11,19]);\r",
+							"        })\r",
+							"   });\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\">>>>> Filter by brend\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -290,6 +757,63 @@
 		},
 		{
 			"name": "Filter by price",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"//************************************************* \r",
+							"//response status testing \r",
+							"//************************************************* \r",
+							"\r",
+							"pm.test(\">>> Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\">>> Status code name has string 'OK'\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\">>> Response is in json format\", function () {\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\">>> Response time is less than 500\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"\r",
+							"//************************************************* \r",
+							"//response body testing\r",
+							"//************************************************* \r",
+							"pm.test(\">>> Response is not empty\", function () {\r",
+							"    pm.expect(jsonData).to.be.not.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\">>> Response has type object\", function () {\r",
+							"    pm.expect(jsonData).to.be.a(\"object\")\r",
+							"});\r",
+							"\r",
+							"pm.test(\">>> Amout of products\", function () {\r",
+							"    pm.expect(jsonData.products.length).to.eql(1)\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\">>>>> Filter by price\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -335,6 +859,53 @@
 		},
 		{
 			"name": "Search by product name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"//************************************************* \r",
+							"//response status testing \r",
+							"//************************************************* \r",
+							"\r",
+							"pm.test(\">>> Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\">>> Status code name has string 'OK'\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\">>> Response is in json format\", function () {\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\">>> Response time is less than 500\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"\r",
+							"pm.test('>>> Products verification', () => \r",
+							"    {\r",
+							"    pm.expect(jsonData.products[0]).to.have.key(\"id\");\r",
+							"    pm.expect(jsonData.products[0].id).to.eql(22);   \r",
+							"   })\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\">>>>> Search by product name\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -378,6 +949,14 @@
 	"variable": [
 		{
 			"key": "id",
+			"value": ""
+		},
+		{
+			"key": "cust_id",
+			"value": ""
+		},
+		{
+			"key": "cart_id",
 			"value": ""
 		}
 	]
