@@ -1,4 +1,4 @@
-name: Newman Run
+name: PrestaShop Auto Tests Run
 
 on:
   push:
@@ -9,13 +9,14 @@ on:
       - master
 
 jobs:
-  newman:
+  autotests:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v1    
     
-      - name: Run Postman API Tests
+      - name: Run Postman-Newman API Tests
         id: run-newman
         uses: anthonyvscode/newman-action@v1
         with:
@@ -24,3 +25,17 @@ jobs:
 
       - name: Output summary to console
         run: echo ${{ steps.run-newman.outputs.summary }}
+
+      - name: Run JMeter Tests
+        id: run-jmeter
+        uses: rbhadti94/apache-jmeter-action@v0.3.1
+        with:
+          testFilePath: Prestashop_Test_Plan.jmx
+          outputReportsFolder: reports/
+          args: "--loglevel INFO"
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: jmeter-test-results
+          path: reports/
+
