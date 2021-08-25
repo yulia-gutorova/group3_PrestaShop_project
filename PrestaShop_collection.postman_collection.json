@@ -42,7 +42,6 @@
 							"    pm.response.to.be.json;\r",
 							"    });\r",
 							"\r",
-							"\r",
 							"//************************************************* \r",
 							"//response body testing\r",
 							"//************************************************* \r",
@@ -424,7 +423,7 @@
 			"response": []
 		},
 		{
-			"name": "Update an existing cart",
+			"name": "Update an existing cart and add a new  product",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -460,7 +459,6 @@
 							"    pm.response.to.be.json;\r",
 							"    });\r",
 							"\r",
-							"\r",
 							"//************************************************* \r",
 							"//response body testing\r",
 							"//************************************************* \r",
@@ -474,12 +472,18 @@
 							"        pm.expect(jsonData).to.be.a(\"object\")\r",
 							"    });\r",
 							"\r",
-							" pm.test (\">>> Cart verification\", function()\r",
+							" pm.test (\">>> Cart verification (update a product)\", function()\r",
 							"    {\r",
 							"        pm.expect(jsonData.cart.id).to.eql(pm.collectionVariables.get(\"cart_id\")),\r",
 							"        pm.expect(jsonData.cart.associations.cart_rows[0].quantity).to.eql(\"1000\")\r",
 							"    });    \r",
 							"\r",
+							" pm.test (\">>> Cart verification (add a product)\", function()\r",
+							"    {\r",
+							"        pm.expect(jsonData.cart.id).to.eql(pm.collectionVariables.get(\"cart_id\")),\r",
+							"        pm.expect(jsonData.cart.associations.cart_rows[1].id).to.eql(\"21\"),\r",
+							"        pm.expect(jsonData.cart.associations.cart_rows[1].quantity).to.eql(\"5\")\r",
+							"    });\r",
 							""
 						],
 						"type": "text/javascript"
@@ -491,7 +495,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">\r\n  <cart>\r\n    <id><![CDATA[{{cart_id}}]]></id>\r\n    <id_currency><![CDATA[1]]></id_currency>\r\n    <id_customer><![CDATA[67]]></id_customer>\r\n    <id_lang><![CDATA[1]]></id_lang>\r\n    <associations>\r\n      <cart_rows>\r\n        <cart_row>\r\n          <id_product><![CDATA[1]]></id_product>\r\n          <id_product_attribute><![CDATA[1]]></id_product_attribute>\r\n          <id_address_delivery><![CDATA[3]]></id_address_delivery>\r\n          <id_customization><![CDATA[0]]></id_customization>\r\n          <quantity><![CDATA[1000]]></quantity>\r\n        </cart_row>\r\n      </cart_rows>\r\n    </associations>\r\n  </cart>\r\n</prestashop>",
+					"raw": "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">\r\n  <cart>\r\n    <id><![CDATA[{{cart_id}}]]></id>\r\n    <id_currency><![CDATA[1]]></id_currency>\r\n    <id_customer><![CDATA[67]]></id_customer>\r\n    <id_lang><![CDATA[1]]></id_lang>\r\n    <associations>\r\n      <cart_rows>\r\n        <cart_row>\r\n          <id_product><![CDATA[1]]></id_product>\r\n          <id_product_attribute><![CDATA[1]]></id_product_attribute>\r\n          <id_address_delivery><![CDATA[3]]></id_address_delivery>\r\n          <id_customization><![CDATA[0]]></id_customization>\r\n          <quantity><![CDATA[1000]]></quantity>\r\n        </cart_row>\r\n        <cart_row>\r\n          <id_product><![CDATA[21]]></id_product>\r\n          <id_product_attribute><![CDATA[1]]></id_product_attribute>\r\n          <id_address_delivery><![CDATA[3]]></id_address_delivery>\r\n          <id_customization><![CDATA[0]]></id_customization>\r\n          <quantity><![CDATA[5]]></quantity>\r\n        </cart_row>\r\n      </cart_rows>\r\n    </associations>\r\n  </cart>\r\n</prestashop>",
 					"options": {
 						"raw": {
 							"language": "xml"
@@ -759,6 +763,11 @@
 							"    pm.expect(jsonData.products.length).to.eql(1)\r",
 							"});\r",
 							"\r",
+							"pm.test('>>> Products verification', () => \r",
+							"    {\r",
+							"    pm.expect(jsonData.products[0]).to.have.key(\"id\");\r",
+							"    pm.expect(jsonData.products[0].id).to.eql(1);   \r",
+							"   })\r",
 							""
 						],
 						"type": "text/javascript"
@@ -895,6 +904,216 @@
 						{
 							"key": "sort",
 							"value": "id_ASC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filter by category men",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\">>>>> Filter by gender (men)\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"//************************************************* \r",
+							"//response status testing \r",
+							"//************************************************* \r",
+							"\r",
+							"pm.test (\">>> Status code is 200\", function()\r",
+							"    {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Status code name has string 'OK'\", function()\r",
+							"    {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Response is in json format\", function()\r",
+							"    {\r",
+							"    pm.response.to.be.json;\r",
+							"    });\r",
+							"\r",
+							"//************************************************* \r",
+							"//response body testing\r",
+							"//************************************************* \r",
+							"pm.test (\">>> Response is not empty\", function()\r",
+							"    {\r",
+							"    pm.expect(jsonData).to.be.not.empty;\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Response has type object\", function()\r",
+							"    {\r",
+							"        pm.expect(jsonData).to.be.a(\"object\")\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Response has type object\", function()\r",
+							"    {\r",
+							"        pm.expect(jsonData.category.associations.products.length).to.eql(3)\r",
+							"    });\r",
+							"\r",
+							"pm.test('>>> Products verification', () => \r",
+							"    {\r",
+							"         _.each(jsonData.category.associations.products, (item) => \r",
+							"         {\r",
+							"          pm.expect(item.id).to.be.not.a(\"number\"),\r",
+							"          pm.expect(Number(item.id)).to.be.oneOf([1,22,23]),\r",
+							"          console.log(\"Item id is: \" + item.id)\r",
+							"         })\r",
+							"    })"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://104.209.254.152/api/categories/4/?ws_key=UDUFEDTTKQXMN79WKY6QWFP48L9BMZM4&output_format=JSON&filter[id_category]=4",
+					"protocol": "http",
+					"host": [
+						"104",
+						"209",
+						"254",
+						"152"
+					],
+					"path": [
+						"api",
+						"categories",
+						"4",
+						""
+					],
+					"query": [
+						{
+							"key": "ws_key",
+							"value": "UDUFEDTTKQXMN79WKY6QWFP48L9BMZM4"
+						},
+						{
+							"key": "output_format",
+							"value": "JSON"
+						},
+						{
+							"key": "filter[id_category]",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filter by category women",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\">>>>> Filter by gender (men)\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"//************************************************* \r",
+							"//response status testing \r",
+							"//************************************************* \r",
+							"\r",
+							"pm.test (\">>> Status code is 200\", function()\r",
+							"    {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Status code name has string 'OK'\", function()\r",
+							"    {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Response is in json format\", function()\r",
+							"    {\r",
+							"    pm.response.to.be.json;\r",
+							"    });\r",
+							"\r",
+							"//************************************************* \r",
+							"//response body testing\r",
+							"//************************************************* \r",
+							"pm.test (\">>> Response is not empty\", function()\r",
+							"    {\r",
+							"    pm.expect(jsonData).to.be.not.empty;\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Response has type object\", function()\r",
+							"    {\r",
+							"        pm.expect(jsonData).to.be.a(\"object\")\r",
+							"    });\r",
+							"\r",
+							"pm.test (\">>> Response has type object\", function()\r",
+							"    {\r",
+							"        pm.expect(jsonData.category.associations.products.length).to.eql(3)\r",
+							"    });\r",
+							"\r",
+							"pm.test('>>> Products verification', () => \r",
+							"    {\r",
+							"         _.each(jsonData.category.associations.products, (item) => \r",
+							"         {\r",
+							"          pm.expect(item.id).to.be.not.a(\"number\"),\r",
+							"          pm.expect(Number(item.id)).to.be.oneOf([1,22,23]),\r",
+							"          console.log(\"Item id is: \" + item.id)\r",
+							"         })\r",
+							"    })"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://104.209.254.152/api/categories/4/?ws_key=UDUFEDTTKQXMN79WKY6QWFP48L9BMZM4&output_format=JSON&filter[id_category]=4",
+					"protocol": "http",
+					"host": [
+						"104",
+						"209",
+						"254",
+						"152"
+					],
+					"path": [
+						"api",
+						"categories",
+						"4",
+						""
+					],
+					"query": [
+						{
+							"key": "ws_key",
+							"value": "UDUFEDTTKQXMN79WKY6QWFP48L9BMZM4"
+						},
+						{
+							"key": "output_format",
+							"value": "JSON"
+						},
+						{
+							"key": "filter[id_category]",
+							"value": "4"
 						}
 					]
 				}
