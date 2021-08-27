@@ -42,7 +42,7 @@
 							"    pm.response.to.be.json;\r",
 							"    });\r",
 							"\r",
-							"pm.test (\">>> Response time is less than 500\", function()\r",
+							"pm.test (\">>> Response time is less than 600\", function()\r",
 							"    {\r",
 							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
 							"    });\r",
@@ -162,7 +162,7 @@
 							"    pm.response.to.be.json;\r",
 							"    });\r",
 							"\r",
-							"pm.test (\">>> Response time is less than 500\", function()\r",
+							"pm.test (\">>> Response time is less than 600\", function()\r",
 							"    {\r",
 							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
 							"    });\r",
@@ -256,7 +256,7 @@
 							"    {\r",
 							"    pm.response.to.have.status(\"OK\");\r",
 							"    });\r",
-							"pm.test (\">>> Response time is less than 500\", function()\r",
+							"pm.test (\">>> Response time is less than 600\", function()\r",
 							"    {\r",
 							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
 							"    });\r",
@@ -346,7 +346,7 @@
 							"    {\r",
 							"    pm.response.to.be.json;\r",
 							"    });\r",
-							"pm.test (\">>> Response time is less than 500\", function()\r",
+							"pm.test (\">>> Response time is less than 600\", function()\r",
 							"    {\r",
 							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
 							"    });\r",
@@ -472,7 +472,7 @@
 							"    pm.response.to.be.json;\r",
 							"    });\r",
 							"\r",
-							"pm.test (\">>> Response time is less than 500\", function()\r",
+							"pm.test (\">>> Response time is less than 600\", function()\r",
 							"    {\r",
 							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
 							"    });\r",
@@ -577,7 +577,7 @@
 							"    pm.response.to.have.status(\"OK\");\r",
 							"    });\r",
 							"\r",
-							"pm.test (\">>> Response time is less than 500\", function()\r",
+							"pm.test (\">>> Response time is less than 600\", function()\r",
 							"    {\r",
 							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
 							"    });\r",
@@ -664,7 +664,7 @@
 							"pm.test(\">>> Response is in json format\", function () {\r",
 							"    pm.response.to.be.json;\r",
 							"});\r",
-							"pm.test (\">>> Response time is less than 500\", function()\r",
+							"pm.test (\">>> Response time is less than 600\", function()\r",
 							"    {\r",
 							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
 							"    });\r",
@@ -773,7 +773,7 @@
 							"pm.test(\">>> Response is in json format\", function () {\r",
 							"    pm.response.to.be.json;\r",
 							"});\r",
-							"pm.test (\">>> Response time is less than 500\", function()\r",
+							"pm.test (\">>> Response time is less than 600\", function()\r",
 							"    {\r",
 							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
 							"    });\r",
@@ -879,7 +879,7 @@
 							"pm.test(\">>> Response is in json format\", function () {\r",
 							"    pm.response.to.be.json;\r",
 							"});\r",
-							"pm.test (\">>> Response time is less than 500\", function()\r",
+							"pm.test (\">>> Response time is less than 600\", function()\r",
 							"    {\r",
 							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
 							"    });\r",
@@ -1085,7 +1085,7 @@
 							"    pm.response.to.be.json;\r",
 							"    });\r",
 							"\r",
-							" pm.test (\">>> Response time is less than 500\", function()\r",
+							" pm.test (\">>> Response time is less than 600\", function()\r",
 							"    {\r",
 							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
 							"    });   \r",
@@ -1148,6 +1148,474 @@
 						{
 							"key": "output_format",
 							"value": "JSON"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get amount of products in white colour",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							" pm.test('>>> Products verification', () => \r",
+							"    {\r",
+							"        var i =0;\r",
+							"         _.each(jsonData.products, (item) => \r",
+							"         {\r",
+							"                _.each(item.associations.product_option_values, (item1) =>{\r",
+							"                        if ((Number(item1.id)===8))\r",
+							"                        {   i=i+1;\r",
+							"                            console.log(\"Product id is: \" + item.id);\r",
+							"                            pm.expect(item.id).to.be.oneOf([1,9,10,11]);\r",
+							"                        }\r",
+							"                })              \r",
+							"         })\r",
+							"         console.log(\"Number of products \" + i);\r",
+							"         pm.expect(i).to.eql(4)\r",
+							"    })       \r",
+							"              "
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\">>>>> Get amount of products in white colour\");\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://104.209.254.152/api/products/?ws_key=319B4R11VVY17EDZL6YFDZ2XFQLEGE8D&output_format=JSON&display=full&sort=id_ASC",
+					"protocol": "http",
+					"host": [
+						"104",
+						"209",
+						"254",
+						"152"
+					],
+					"path": [
+						"api",
+						"products",
+						""
+					],
+					"query": [
+						{
+							"key": "ws_key",
+							"value": "319B4R11VVY17EDZL6YFDZ2XFQLEGE8D"
+						},
+						{
+							"key": "output_format",
+							"value": "JSON"
+						},
+						{
+							"key": "display",
+							"value": "full"
+						},
+						{
+							"key": "sort",
+							"value": "id_ASC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get amount of products with dimension 40x60cm",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							" pm.test('>>> Products verification', () => \r",
+							"    {\r",
+							"        var i =0;\r",
+							"         _.each(jsonData.products, (item) => \r",
+							"         {\r",
+							"                _.each(item.associations.product_option_values, (item1) =>{\r",
+							"                        if ((Number(item1.id)===19))\r",
+							"                        {   i=i+1;\r",
+							"                            console.log(\"Product id is: \" + item.id);\r",
+							"                            pm.expect(item.id).to.be.oneOf([3,4,5]);\r",
+							"                        }\r",
+							"                })              \r",
+							"         })\r",
+							"         console.log(\"Number of products \" + i);\r",
+							"         pm.expect(i).to.eql(3)\r",
+							"    })       \r",
+							"              "
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\">>>>> Get amount of products with dimension 40x60cm\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://104.209.254.152/api/products/?ws_key=319B4R11VVY17EDZL6YFDZ2XFQLEGE8D&output_format=JSON&display=full&sort=id_ASC",
+					"protocol": "http",
+					"host": [
+						"104",
+						"209",
+						"254",
+						"152"
+					],
+					"path": [
+						"api",
+						"products",
+						""
+					],
+					"query": [
+						{
+							"key": "ws_key",
+							"value": "319B4R11VVY17EDZL6YFDZ2XFQLEGE8D"
+						},
+						{
+							"key": "output_format",
+							"value": "JSON"
+						},
+						{
+							"key": "display",
+							"value": "full"
+						},
+						{
+							"key": "sort",
+							"value": "id_ASC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get amount of products with property 'Long sleeves'",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							" pm.test('>>> Products verification', () => \r",
+							"    {\r",
+							"        var i =0;\r",
+							"         _.each(jsonData.products, (item) => \r",
+							"         {\r",
+							"            _.each(item.associations.product_features, (item1) =>{\r",
+							"                        if ((Number(item1.id_feature_value)===7))\r",
+							"                        {   i=i+1;\r",
+							"                            console.log(\"Product id is: \" + item.id);\r",
+							"                            pm.expect(item.id).to.be.oneOf([2,22,23]);   \r",
+							"                        }\r",
+							"                })              \r",
+							"         })\r",
+							"         console.log(\"Number of products \" + i);\r",
+							"         pm.expect(i).to.eql(3)\r",
+							"    })       \r",
+							"              "
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\">>>>> Get amount of products with property 'Long sleeves'\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://104.209.254.152/api/products/?ws_key=319B4R11VVY17EDZL6YFDZ2XFQLEGE8D&output_format=JSON&display=full&sort=id_ASC",
+					"protocol": "http",
+					"host": [
+						"104",
+						"209",
+						"254",
+						"152"
+					],
+					"path": [
+						"api",
+						"products",
+						""
+					],
+					"query": [
+						{
+							"key": "ws_key",
+							"value": "319B4R11VVY17EDZL6YFDZ2XFQLEGE8D"
+						},
+						{
+							"key": "output_format",
+							"value": "JSON"
+						},
+						{
+							"key": "display",
+							"value": "full"
+						},
+						{
+							"key": "sort",
+							"value": "id_ASC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get amount of products in size \"S\"",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							" pm.test('>>> Products verification', () => \r",
+							"    {\r",
+							"        var i =0;\r",
+							"         _.each(jsonData.products, (item) => \r",
+							"         {\r",
+							"                _.each(item.associations.product_option_values, (item1) =>{\r",
+							"                        if ((Number(item1.id)===1))\r",
+							"                        {   i=i+1;\r",
+							"                            console.log(\"Product id is: \" + item.id);\r",
+							"                            pm.expect(item.id).to.be.oneOf([1,2]);\r",
+							"                        }\r",
+							"                })              \r",
+							"         })\r",
+							"         console.log(\"Number of products \" + i);\r",
+							"         pm.expect(i).to.eql(2)\r",
+							"    })       \r",
+							"              "
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\">>>>> Get amount of products in size S \");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://104.209.254.152/api/products/?ws_key=319B4R11VVY17EDZL6YFDZ2XFQLEGE8D&output_format=JSON&display=full&sort=id_ASC",
+					"protocol": "http",
+					"host": [
+						"104",
+						"209",
+						"254",
+						"152"
+					],
+					"path": [
+						"api",
+						"products",
+						""
+					],
+					"query": [
+						{
+							"key": "ws_key",
+							"value": "319B4R11VVY17EDZL6YFDZ2XFQLEGE8D"
+						},
+						{
+							"key": "output_format",
+							"value": "JSON"
+						},
+						{
+							"key": "display",
+							"value": "full"
+						},
+						{
+							"key": "sort",
+							"value": "id_ASC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get amount of products with parer type Ruled",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							" pm.test('>>> Products verification', () => \r",
+							"    {\r",
+							"        var i =0;\r",
+							"         _.each(jsonData.products, (item) => \r",
+							"         {\r",
+							"                _.each(item.associations.product_option_values, (item1) =>{\r",
+							"                        if ((Number(item1.id)===22))\r",
+							"                        {   i=i+1;\r",
+							"                            console.log(\"Product id is: \" + item.id);\r",
+							"                            pm.expect(item.id).to.be.oneOf([16,17,18]);\r",
+							"                        }\r",
+							"                })              \r",
+							"         })\r",
+							"         console.log(\"Number of products \" + i);\r",
+							"         pm.expect(i).to.eql(3)\r",
+							"    })       "
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\">>>>> Get amount of products with parer type Ruled\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://104.209.254.152/api/products/?ws_key=319B4R11VVY17EDZL6YFDZ2XFQLEGE8D&output_format=JSON&display=full&sort=id_ASC",
+					"protocol": "http",
+					"host": [
+						"104",
+						"209",
+						"254",
+						"152"
+					],
+					"path": [
+						"api",
+						"products",
+						""
+					],
+					"query": [
+						{
+							"key": "ws_key",
+							"value": "319B4R11VVY17EDZL6YFDZ2XFQLEGE8D"
+						},
+						{
+							"key": "output_format",
+							"value": "JSON"
+						},
+						{
+							"key": "display",
+							"value": "full"
+						},
+						{
+							"key": "sort",
+							"value": "id_ASC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get amount of products in Ceramic composition",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							" pm.test('>>> Products verification', () => \r",
+							"    {\r",
+							"        var i =0;\r",
+							"         _.each(jsonData.products, (item) => \r",
+							"         {\r",
+							"                _.each(item.associations.product_features, (item1) =>{\r",
+							"                        if ((Number(item1.id_feature_value)===3))\r",
+							"                        {   i=i+1;\r",
+							"                            console.log(\"Product id is: \" + item.id);\r",
+							"                            pm.expect(item.id).to.be.oneOf([6,7,8,19]);\r",
+							"                        }\r",
+							"                })              \r",
+							"         })\r",
+							"         console.log(\"Number of products \" + i);\r",
+							"         pm.expect(i).to.eql(4)\r",
+							"    })       \r",
+							"              "
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\">>>>> Get amount of products in Ceramic composition\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://104.209.254.152/api/products/?ws_key=319B4R11VVY17EDZL6YFDZ2XFQLEGE8D&output_format=JSON&display=full&sort=id_ASC",
+					"protocol": "http",
+					"host": [
+						"104",
+						"209",
+						"254",
+						"152"
+					],
+					"path": [
+						"api",
+						"products",
+						""
+					],
+					"query": [
+						{
+							"key": "ws_key",
+							"value": "319B4R11VVY17EDZL6YFDZ2XFQLEGE8D"
+						},
+						{
+							"key": "output_format",
+							"value": "JSON"
+						},
+						{
+							"key": "display",
+							"value": "full"
+						},
+						{
+							"key": "sort",
+							"value": "id_ASC"
 						}
 					]
 				}
