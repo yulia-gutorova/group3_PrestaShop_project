@@ -126,7 +126,7 @@
 			"response": []
 		},
 		{
-			"name": "Update an existing user",
+			"name": "Update a user",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -236,7 +236,7 @@
 			"response": []
 		},
 		{
-			"name": "Delete user with particular ID",
+			"name": "Delete  a user",
 			"event": [
 				{
 					"listen": "test",
@@ -436,7 +436,7 @@
 			"response": []
 		},
 		{
-			"name": "Update an existing cart and add a new  product",
+			"name": "Update a cart and add a new  product",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -557,7 +557,7 @@
 			"response": []
 		},
 		{
-			"name": "Delete an existing cart",
+			"name": "Delete a cart",
 			"event": [
 				{
 					"listen": "test",
@@ -750,7 +750,7 @@
 			"response": []
 		},
 		{
-			"name": "Filter by price",
+			"name": "Search a product by price",
 			"event": [
 				{
 					"listen": "test",
@@ -856,7 +856,7 @@
 			"response": []
 		},
 		{
-			"name": "Search by product name",
+			"name": "Search a product by name",
 			"event": [
 				{
 					"listen": "test",
@@ -1156,7 +1156,7 @@
 			"response": []
 		},
 		{
-			"name": "Get amount of products in white colour",
+			"name": "Filter by color",
 			"event": [
 				{
 					"listen": "test",
@@ -1235,7 +1235,7 @@
 			"response": []
 		},
 		{
-			"name": "Get amount of products with dimension 40x60cm",
+			"name": "Filter by dimension",
 			"event": [
 				{
 					"listen": "test",
@@ -1313,7 +1313,7 @@
 			"response": []
 		},
 		{
-			"name": "Get amount of products with property 'Long sleeves'",
+			"name": "Filter by property",
 			"event": [
 				{
 					"listen": "test",
@@ -1391,7 +1391,7 @@
 			"response": []
 		},
 		{
-			"name": "Get amount of products in size \"S\"",
+			"name": "Filter by size",
 			"event": [
 				{
 					"listen": "test",
@@ -1469,7 +1469,7 @@
 			"response": []
 		},
 		{
-			"name": "Get amount of products with parer type Ruled",
+			"name": "Filter by paper type",
 			"event": [
 				{
 					"listen": "test",
@@ -1546,7 +1546,7 @@
 			"response": []
 		},
 		{
-			"name": "Get amount of products in Ceramic composition",
+			"name": "Filter by composition",
 			"event": [
 				{
 					"listen": "test",
