@@ -26,16 +26,16 @@ jobs:
       - name: Output Postman-Newman summary to console
         run: echo ${{ steps.run-newman.outputs.summary }}
 
-      - name: Run JMeter Tests
-        id: run-jmeter
-        uses: rbhadti94/apache-jmeter-action@v0.3.1
-        with:
-          testFilePath: ThreadGroup.jmx
-          outputReportsFolder: reports/
-          args: "--loglevel INFO"
+#      - name: Run JMeter Tests
+#        id: run-jmeter
+#        uses: rbhadti94/apache-jmeter-action@v0.3.1
+#        with:
+#          testFilePath: ThreadGroup.jmx
+#          outputReportsFolder: reports/
+#          args: "--loglevel INFO"
 
-      - uses: actions/upload-artifact@v1
-        with:
-          name: jmeter-test-results
-          path: reports/
+#      - uses: actions/upload-artifact@v1
+#        with:
+#          name: jmeter-test-results
+#          path: reports/
 
